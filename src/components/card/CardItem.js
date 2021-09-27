@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Avatar, Flex, Text } from "@chakra-ui/react";
-import { currencyFormat } from "utlis";
+import { currencyFormat } from "utils";
 import { Link } from "react-router-dom";
 
 export default function CardItem(props) {

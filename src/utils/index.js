@@ -1,6 +1,6 @@
 export function currencyFormat(num = 0) {
   const amount = Number(num);
-  return "Rp " + amount.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+  return "Rp. " + amount.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
 }
 
 export default function debounce(func, wait, immediate) {

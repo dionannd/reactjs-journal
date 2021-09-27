@@ -45,6 +45,14 @@ const transactionRequest = {
       return Promise.reject(error);
     }
   },
+  saveDetailTransaction: async (payload, id) => {
+    try {
+      const response = await request.post(`transaction/detail/${id}`, payload);
+      return Promise.resolve(response.data);
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  },
 };
 
 export default transactionRequest;

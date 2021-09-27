@@ -20,12 +20,41 @@ const theme = extendTheme({
             boxShadow: "md",
           },
         },
+        dark: {
+          bg: "#000",
+          color: "white",
+          _hover: {
+            bg: "#363636",
+          },
+        },
+        "dark-outline": {
+          bg: "#000000",
+          color: "white",
+          borderWidth: "1px",
+          borderColor: "#000",
+          _hover: {
+            bg: "#fff",
+            color: "black",
+            borderWidth: "1px",
+            borderColor: "#000",
+          },
+        },
         outline: {
           color: "gray.600",
           borderWidht: "1px",
           borderColor: "gray.500",
           _hover: {
             boxShadow: "md",
+          },
+        },
+        "outline-logout": {
+          background: "#f5f6fa",
+          color: "red",
+          borderWidth: "1px",
+          borderColor: "red",
+          borderRadius: "20px",
+          _hover: {
+            bg: "gray.200",
           },
         },
       },
@@ -42,6 +71,7 @@ const theme = extendTheme({
     global: {
       body: {
         background: "gray.100",
+        FontFace: "Inter",
       },
       ".pages-link": {
         padding: "0.6rem 0.4rem",

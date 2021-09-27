@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import authRequest from "api/auth";
 
-export default function Login() {
+export default function Register() {
   const toast = useToast();
   const [isLoading, setLoading] = React.useState(false);
   const [data, setData] = React.useState({
@@ -19,37 +19,37 @@ export default function Login() {
     password: "",
   });
 
-  const handleLogin = async () => {
-    try {
-      setLoading(true);
-      const response = await authRequest.login(data);
-      localStorage.setItem("token", response.token);
+  // const handleLogin = async () => {
+  //   try {
+  //     setLoading(true);
+  //     const response = await authRequest.login(data);
+  //     localStorage.setItem("token", response.token);
 
-      toast({
-        title: "Sukses",
-        description: "login berhasil",
-        status: "success",
-        duration: 3000,
-        isClosable: true,
-      });
+  //     toast({
+  //       title: "Sukses",
+  //       description: "login berhasil",
+  //       status: "success",
+  //       duration: 3000,
+  //       isClosable: true,
+  //     });
 
-      window.location.href = "/home";
-    } catch (err) {
-      toast({
-        title: "Oops!",
-        description: err.response.data.message,
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
+  //     window.location.href = "/home";
+  //   } catch (err) {
+  //     toast({
+  //       title: "Oops!",
+  //       description: err.response.data.message,
+  //       status: "error",
+  //       duration: 3000,
+  //       isClosable: true,
+  //     });
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
-  const register = () => {
-    window.location.href = "/register";
-  };
+  // const register = () => {
+  //   window.location.href = "/register";
+  // };
 
   return (
     <AuthLayout>
@@ -74,20 +74,12 @@ export default function Login() {
           w="full"
           variant="dark"
           mb={4}
-          onClick={handleLogin}
+          // onClick={handleLogin}
           isLoading={isLoading}
           loadingText="Please wait."
         >
           Masuk
         </Button>
-        <Flex>
-          <Text>
-            Tidak punya akun?
-            <Button size="sm" variant="link" color="black" onClick={register}>
-              Registrasi
-            </Button>
-          </Text>
-        </Flex>
       </Card>
     </AuthLayout>
   );

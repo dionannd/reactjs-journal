@@ -6,6 +6,8 @@ import {
   SimpleGrid,
   useDisclosure,
   useToast,
+  Box,
+  Center,
 } from "@chakra-ui/react";
 import transactionRequest from "api/transaction";
 import { CardItem, ModalTransaction } from "components";
@@ -54,18 +56,25 @@ export default function HomePage() {
   return (
     <>
       <Flex alignItems="center" justifyContent="space-between">
-        <Text>List Buku</Text>
-        <Button variant="outline" onClick={onOpen}>
-          Tambah Buku
+        <Text>List Catatan</Text>
+        <Button variant="dark-outline" onClick={onOpen} fontWeight="reguler">
+          Tambah Catatan
         </Button>
       </Flex>
-      <SimpleGrid gap={4} columns={[1, 1, 2, 3]} mt={9}>
-        {transaction && transaction.length === 0 ? (
-          <Text> Tidak Ada Data</Text>
-        ) : (
-          transaction.map((item, index) => <CardItem data={item} key={index} />)
-        )}
+      {transaction.length === 0 && (
+        <Box px={8} py={12} rounded="md" w="full" mt={6} borderWidth="1px">
+          <Center fontWeight="bold" fontSize={24}>
+            Belum ada Catatan!
+          </Center>
+          <Center mt={2}>Buat catatan baru terlebih dahulu.</Center>
+        </Box>
+      )}
+      <SimpleGrid gap={4} columns={[2, null, 3]} mt={7}>
+        {transaction.map((item, index) => (
+          <CardItem data={item} key={index} />
+        ))}
       </SimpleGrid>
+
       <ModalTransaction
         isOpen={isOpen}
         onClose={onClose}

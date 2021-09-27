@@ -10,10 +10,12 @@ import {
   FormControl,
   FormLabel,
   Input,
+  Select,
 } from "@chakra-ui/react";
 
-const ModalTransaction = (props) => {
-  const { isOpen, onClose, saveTransaction, data, setData, isLoading } = props;
+const ModalDetail = (props) => {
+  const { isOpen, onClose, saveDetailTransaction, data, setData, isLoading } =
+    props;
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -22,14 +24,6 @@ const ModalTransaction = (props) => {
         <ModalCloseButton />
         <ModalBody>
           <FormControl mb={4}>
-            <FormLabel>Nama</FormLabel>
-            <Input
-              variant="filled"
-              value={data.name}
-              onChange={(e) => setData({ ...data, name: e.target.value })}
-            />
-          </FormControl>
-          <FormControl>
             <FormLabel>Deskripsi</FormLabel>
             <Input
               variant="filled"
@@ -39,15 +33,34 @@ const ModalTransaction = (props) => {
               }
             />
           </FormControl>
+          <FormControl mb={4}>
+            <FormLabel>Tipe</FormLabel>
+            <Select
+              placeholder="-- Pilih Tipe --"
+              onChange={(e) => setData({ ...data, tipe: e.target.value })}
+            >
+              <option value="pengeluaran">Pengeluaran</option>
+              <option value="pemasukan">Pemasukan</option>
+            </Select>
+          </FormControl>
+          <FormControl>
+            <FormLabel>Jumlah</FormLabel>
+            <Input
+              type="number"
+              variant="filled"
+              value={data.amount}
+              onChange={(e) => setData({ ...data, amount: e.target.value })}
+            />
+          </FormControl>
         </ModalBody>
 
         <ModalFooter>
           <Button
             variant="dark"
-            onClick={saveTransaction}
+            fontWeight="reguler"
+            onClick={saveDetailTransaction}
             isLoading={isLoading}
             loadingText="Memproses"
-            fontWeight="reguler"
           >
             Simpan
           </Button>
@@ -57,4 +70,4 @@ const ModalTransaction = (props) => {
   );
 };
 
-export default ModalTransaction;
+export default ModalDetail;

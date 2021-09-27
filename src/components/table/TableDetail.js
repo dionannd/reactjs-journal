@@ -1,6 +1,7 @@
 import React from "react";
 import { Table, Thead, Tbody, Tr, Th, Td, Checkbox } from "@chakra-ui/react";
 import { Card } from "components";
+import { currencyFormat } from "utils";
 import moment from "moment";
 
 export default function TableDetail(props) {
@@ -39,8 +40,8 @@ export default function TableDetail(props) {
                   />
                 </Td>
                 <Td>{item.description}</Td>
-                <Td>{item.type}</Td>
-                <Td>{item.amount}</Td>
+                <Td>{item.tipe}</Td>
+                <Td>{currencyFormat(item.amount)}</Td>
                 <Td>
                   {moment(item.transaction_date).format("DD MMMM YYYY HH:mm")}
                 </Td>

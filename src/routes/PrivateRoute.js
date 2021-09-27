@@ -1,7 +1,7 @@
 import React from "react";
 import routeList from "./route-list";
 import { Switch, Route, withRouter, Redirect } from "react-router-dom";
-import { AuthLayout } from "components";
+import { MainLayout } from "components";
 
 const PrivateRoute = withRouter(() => {
   const AuthPage = routeList.map((route, index) => (
@@ -14,11 +14,11 @@ const PrivateRoute = withRouter(() => {
   ));
 
   return (
-    <AuthLayout>
+    <MainLayout>
       <Switch>
         {localStorage.getItem("token") ? AuthPage : <Redirect to="/" />}
       </Switch>
-    </AuthLayout>
+    </MainLayout>
   );
 });
 

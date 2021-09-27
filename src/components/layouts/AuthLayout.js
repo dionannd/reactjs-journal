@@ -1,16 +1,16 @@
-import Navbar from "components/navbar";
 import React from "react";
-import { Box } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 
-const AuthLayout = ({ children }) => {
+export default function AuthLayout({ children }) {
   return (
-    <>
-      <Navbar />
-      <Box maxW="60em" margin="auto" mt={10} px={5} mb={20}>
-        {children}
-      </Box>
-    </>
+    <Flex
+      alignItems="center"
+      justifyContent="center"
+      height="100vh"
+      maxW="32rem"
+      margin="auto"
+    >
+      {children}
+    </Flex>
   );
-};
-
-export default AuthLayout;
+}

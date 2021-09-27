@@ -3,7 +3,7 @@ import { Box } from "@chakra-ui/react";
 const Card = ({ children, ...rest }) => {
   return (
     <Box
-      px={8}
+      px={10}
       py={10}
       boxShadow="md"
       rounded="md"
