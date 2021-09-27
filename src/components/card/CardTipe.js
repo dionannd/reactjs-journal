@@ -1,4 +1,4 @@
-import { Flex, Center } from "@chakra-ui/layout";
+import { Center } from "@chakra-ui/layout";
 import { Card } from "components";
 import { currencyFormat } from "utils";
 
