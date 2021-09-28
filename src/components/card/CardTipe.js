@@ -9,13 +9,19 @@ const CardTipe = (props) => {
       <Card boxShadow="sm" px="14px" py="14px">
         <Center>Pemasukan</Center>
         <Center fontWeight="bold" fontSize="21px" color="green">
-          0{/* {data.income} */}
+          {currencyFormat(data.pemasukan)}
         </Center>
       </Card>
       <Card boxShadow="sm" px="14px" py="14px">
         <Center>Pengeluaran</Center>
         <Center fontWeight="bold" fontSize="21px" color="red">
-          0{/* {data.loss} */}
+          {currencyFormat(data.pengeluaran)}
+        </Center>
+      </Card>
+      <Card boxShadow="sm" px="14px" py="14px">
+        <Center>Total Pendapatan</Center>
+        <Center fontWeight="bold" fontSize="21px" color="blue">
+          {currencyFormat(data.pemasukan - data.pengeluaran)}
         </Center>
       </Card>
     </>

@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory, useParams, Link as ReactLink } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import transactionRequest from "api/transaction";
 import {
   Flex,
@@ -30,8 +30,6 @@ function DetailPage() {
   const [listDetail, setListDetail] = React.useState([]);
   const [listSelected, setListSelected] = React.useState([]);
   const [totalCount, setTotalCount] = React.useState(0);
-  const [toalIncome, setTotalIncome] = React.useState(0);
-  const [totalLoss, setTotalLoss] = React.useState(0);
 
   const [isLoadingSave, setLoadingSave] = React.useState(false);
 
@@ -48,9 +46,9 @@ function DetailPage() {
     });
   };
 
-  const getHeader = async () => {
-    const res = await transactionRequest.getDetailTransaction(id);
-  };
+  // const getHeader = async () => {
+  //   const res = await transactionRequest.getDetailTransaction(id);
+  // };
 
   const getDetails = async (page, search = "") => {
     setListDetail([]);
@@ -60,10 +58,9 @@ function DetailPage() {
     setTotalCount(res.totalCount);
   };
 
-  const getIncome = async (id) => {
-    const res = await transactionRequest.getDetailTransaction(id);
-    setTotalIncome(res.data);
-    setTotalLoss(res.data);
+  const getTipeDetail = async () => {
+    const response = await transactionRequest.getDetailTipe(id);
+    setData(response.data);
   };
 
   const deleteDetails = async () => {
@@ -130,22 +127,21 @@ function DetailPage() {
     }
   };
 
-  React.useEffect(() => {
-    getHeader(id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // React.useEffect(() => {
+  //   getHeader(id);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   React.useEffect(() => {
-    getDetails(page, search);
-    getIncome(id);
-
+    getDetails(page, search, id);
+    getTipeDetail();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, search, id]);
+  }, [page, search]);
 
   return (
     <>
-      <SimpleGrid gap={5} columns={[2]} mb={5}>
-        <CardTipe />
+      <SimpleGrid gap={5} columns={[1, 2, 3, 3]} mb={5}>
+        <CardTipe data={data} />
       </SimpleGrid>
       <Flex alignItems="center">
         <Button mr={4} bg="white" onClick={history.goBack}>

@@ -10,6 +10,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import authRequest from "api/auth";
+import { Link } from "react-router-dom";
 
 export default function Login() {
   const toast = useToast();
@@ -47,10 +48,6 @@ export default function Login() {
     }
   };
 
-  const register = () => {
-    window.location.href = "/register";
-  };
-
   return (
     <AuthLayout>
       <Card>
@@ -83,9 +80,11 @@ export default function Login() {
         <Flex>
           <Text>
             Tidak punya akun?
-            <Button size="sm" variant="link" color="black" onClick={register}>
-              Registrasi
-            </Button>
+            <Link to="/register">
+              <Button size="sm" variant="link" color="black">
+                Registrasi
+              </Button>
+            </Link>
           </Text>
         </Flex>
       </Card>

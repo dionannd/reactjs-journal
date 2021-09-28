@@ -1,9 +1,9 @@
-import { Register, HomePage, DetailPage } from "pages";
+import { HomePage, DetailPage, Register } from "pages";
 
 const routeList = [
   {
     path: "/register",
-    components: Register,
+    component: Register,
   },
   {
     path: "/home",

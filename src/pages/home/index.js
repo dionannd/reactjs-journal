@@ -1,22 +1,27 @@
 import React from "react";
 import {
   Flex,
-  Text,
   Button,
   SimpleGrid,
   useDisclosure,
   useToast,
   Box,
   Center,
+  InputGroup,
+  Input,
+  InputLeftElement,
 } from "@chakra-ui/react";
+import { SearchIcon } from "@chakra-ui/icons";
 import transactionRequest from "api/transaction";
 import { CardItem, ModalTransaction } from "components";
 
 export default function HomePage() {
-  const [transaction, setTransaction] = React.useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const [transaction, setTransaction] = React.useState([]);
   const [data, setData] = React.useState({});
   const [isLoadingSave, setLoadingSave] = React.useState(false);
+
   const toast = useToast();
 
   const getTransaction = async () => {
@@ -56,8 +61,26 @@ export default function HomePage() {
   return (
     <>
       <Flex alignItems="center" justifyContent="space-between">
-        <Text>List Catatan</Text>
-        <Button variant="dark-outline" onClick={onOpen} fontWeight="reguler">
+        <InputGroup mr={4}>
+          <InputLeftElement
+            pointerEvents="none"
+            children={<SearchIcon color="gray.300" />}
+          />
+          <Input
+            type="tel"
+            placeholder="Cari Catatan..."
+            bg="white"
+            _focus={{
+              borderColor: "gray.500",
+            }}
+          />
+        </InputGroup>
+        <Button
+          variant="dark-outline"
+          onClick={onOpen}
+          fontWeight="reguler"
+          fontSize="15px"
+        >
           Tambah Catatan
         </Button>
       </Flex>

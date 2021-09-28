@@ -53,6 +53,14 @@ const transactionRequest = {
       return Promise.reject(error);
     }
   },
+  getDetailTipe: async (id) => {
+    try {
+      const response = await request.get(`transaction/${id}`);
+      return Promise.resolve(response.data);
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  },
 };
 
 export default transactionRequest;

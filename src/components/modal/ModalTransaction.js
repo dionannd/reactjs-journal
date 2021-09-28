@@ -18,19 +18,19 @@ const ModalTransaction = (props) => {
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Tambah Transaksi</ModalHeader>
+        <ModalHeader>Tambah Catatan</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <FormControl mb={4}>
-            <FormLabel>Nama</FormLabel>
+          <FormControl mb={4} isRequired="true">
+            <FormLabel>Nama:</FormLabel>
             <Input
               variant="filled"
               value={data.name}
               onChange={(e) => setData({ ...data, name: e.target.value })}
             />
           </FormControl>
-          <FormControl>
-            <FormLabel>Deskripsi</FormLabel>
+          <FormControl isRequired="true">
+            <FormLabel>Deskripsi:</FormLabel>
             <Input
               variant="filled"
               value={data.description}

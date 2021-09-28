@@ -23,8 +23,8 @@ const ModalDetail = (props) => {
         <ModalHeader>Tambah Transaksi</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <FormControl mb={4}>
-            <FormLabel>Deskripsi</FormLabel>
+          <FormControl mb={4} isRequired="true">
+            <FormLabel>Deskripsi:</FormLabel>
             <Input
               variant="filled"
               value={data.description}
@@ -33,8 +33,8 @@ const ModalDetail = (props) => {
               }
             />
           </FormControl>
-          <FormControl mb={4}>
-            <FormLabel>Tipe</FormLabel>
+          <FormControl mb={4} isRequired="true">
+            <FormLabel>Tipe:</FormLabel>
             <Select
               placeholder="-- Pilih Tipe --"
               onChange={(e) => setData({ ...data, tipe: e.target.value })}
@@ -43,8 +43,8 @@ const ModalDetail = (props) => {
               <option value="pemasukan">Pemasukan</option>
             </Select>
           </FormControl>
-          <FormControl>
-            <FormLabel>Jumlah</FormLabel>
+          <FormControl isRequired="true">
+            <FormLabel>Jumlah:</FormLabel>
             <Input
               type="number"
               variant="filled"

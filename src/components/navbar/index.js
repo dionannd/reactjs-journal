@@ -21,7 +21,7 @@ const Navbar = () => {
           <Text fontWeight="bold" mr={10}>
             MyBuku
           </Text>
-          <Text mr={5}>Kembali</Text>
+          <Text mr={5}>Laporan</Text>
         </Flex>
         <Flex>
           <Button
