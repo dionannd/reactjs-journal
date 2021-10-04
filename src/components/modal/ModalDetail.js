@@ -39,8 +39,8 @@ const ModalDetail = (props) => {
               placeholder="-- Pilih Tipe --"
               onChange={(e) => setData({ ...data, tipe: e.target.value })}
             >
-              <option value="pengeluaran">Pengeluaran</option>
               <option value="pemasukan">Pemasukan</option>
+              <option value="pengeluaran">Pengeluaran</option>
             </Select>
           </FormControl>
           <FormControl isRequired="true">

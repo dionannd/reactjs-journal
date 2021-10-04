@@ -1,4 +1,5 @@
 import React from "react";
+import { Helmet } from "react-helmet";
 import {
   Flex,
   Button,
@@ -14,20 +15,16 @@ import {
 import { SearchIcon } from "@chakra-ui/icons";
 import transactionRequest from "api/transaction";
 import { CardItem, ModalTransaction } from "components";
+import debounce from "utils";
 
 export default function HomePage() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
   const [transaction, setTransaction] = React.useState([]);
   const [data, setData] = React.useState({});
+  const [search, setSearch] = React.useState("");
   const [isLoadingSave, setLoadingSave] = React.useState(false);
 
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
-
-  const getTransaction = async () => {
-    const response = await transactionRequest.getTransaction();
-    setTransaction(response.data);
-  };
 
   const notification = (title, message, type) => {
     toast({
@@ -38,6 +35,15 @@ export default function HomePage() {
       isClosable: true,
     });
   };
+
+  const getTransaction = async (q) => {
+    const response = await transactionRequest.getTransaction(q);
+    setTransaction(response.data);
+  };
+
+  const handleSearch = debounce((e) => {
+    setSearch(e);
+  }, 500);
 
   const handleTransaction = async () => {
     try {
@@ -54,12 +60,25 @@ export default function HomePage() {
     }
   };
 
+  const deleteTransaction = async (id) => {
+    try {
+      await transactionRequest.deleteTransaction(id);
+      notification("Sukses!", "Transaksi berhasil dihapus", "success");
+      getTransaction();
+    } catch (error) {
+      notification("Ooops!", error.response.data.message, "error");
+    }
+  };
+
   React.useEffect(() => {
-    getTransaction();
-  }, []);
+    getTransaction(search);
+  }, [search]);
 
   return (
     <>
+      <Helmet>
+        <title>Home Transaksi</title>
+      </Helmet>
       <Flex alignItems="center" justifyContent="space-between">
         <InputGroup mr={4}>
           <InputLeftElement
@@ -70,6 +89,7 @@ export default function HomePage() {
             type="tel"
             placeholder="Cari Catatan..."
             bg="white"
+            onChange={(e) => handleSearch(e.target.value)}
             _focus={{
               borderColor: "gray.500",
             }}
@@ -94,7 +114,11 @@ export default function HomePage() {
       )}
       <SimpleGrid gap={4} columns={[2, null, 3]} mt={7}>
         {transaction.map((item, index) => (
-          <CardItem data={item} key={index} />
+          <CardItem
+            data={item}
+            key={index}
+            deleteData={(id) => deleteTransaction(id)}
+          />
         ))}
       </SimpleGrid>
 

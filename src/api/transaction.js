@@ -1,9 +1,9 @@
 import request from ".";
 
 const transactionRequest = {
-  getTransaction: async () => {
+  getTransaction: async (q = "") => {
     try {
-      const response = await request.get("transaction");
+      const response = await request.get(`transaction?q=${q}`);
       return Promise.resolve(response.data);
     } catch (error) {
       return Promise.reject(error);
@@ -11,7 +11,15 @@ const transactionRequest = {
   },
   saveTransaction: async (payload) => {
     try {
-      const response = await request.post("transaction", payload);
+      const response = await request.post("transaction/save", payload);
+      return Promise.resolve(response.data);
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  },
+  deleteTransaction: async (id) => {
+    try {
+      const response = await request.delete(`transaction/${id}/delete`);
       return Promise.resolve(response.data);
     } catch (error) {
       return Promise.reject(error);
@@ -35,9 +43,9 @@ const transactionRequest = {
       return Promise.reject(error);
     }
   },
-  deleteDetailTransaction: async (payload) => {
+  deleteDetailTransaction: async (payload, id) => {
     try {
-      const response = await request.delete(`transaction/detail/delete`, {
+      const response = await request.delete(`transaction/detail/${id}/delete`, {
         data: payload,
       });
       return Promise.resolve(response.data);
@@ -47,7 +55,10 @@ const transactionRequest = {
   },
   saveDetailTransaction: async (payload, id) => {
     try {
-      const response = await request.post(`transaction/detail/${id}`, payload);
+      const response = await request.post(
+        `transaction/detail/${id}/save`,
+        payload
+      );
       return Promise.resolve(response.data);
     } catch (error) {
       return Promise.reject(error);
@@ -55,7 +66,7 @@ const transactionRequest = {
   },
   getDetailTipe: async (id) => {
     try {
-      const response = await request.get(`transaction/${id}`);
+      const response = await request.get(`transaction/detail/${id}/tipe`);
       return Promise.resolve(response.data);
     } catch (error) {
       return Promise.reject(error);

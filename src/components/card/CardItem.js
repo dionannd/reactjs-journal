@@ -1,19 +1,20 @@
 import React from "react";
-import { Box, Avatar, Flex, Text } from "@chakra-ui/react";
+import { Box, Avatar, Flex, Text, Button } from "@chakra-ui/react";
 import { currencyFormat } from "utils";
 import { Link } from "react-router-dom";
 
 export default function CardItem(props) {
-  const { data } = props;
+  const { data, deleteData } = props;
+
   return (
-    <Link to={`/home/transaction/${data.transaction_id}`}>
-      <Box
-        bg="white"
-        px={4}
-        py={6}
-        rounded="lg"
-        _hover={{ boxShadow: "md", cursor: "pointer" }}
-      >
+    <Box
+      bg="white"
+      px={4}
+      py={6}
+      rounded="lg"
+      _hover={{ boxShadow: "md", cursor: "pointer" }}
+    >
+      <Link to={`/home/transaction/${data.transaction_id}`}>
         <Flex alignItems="center">
           <Avatar name={data.name} size="sm" mr={4} />
           <Box>
@@ -28,7 +29,22 @@ export default function CardItem(props) {
         <Text mt={5} fontSize="18px" fontWeight="600" textAlign="center">
           {currencyFormat(data.total)}
         </Text>
-      </Box>
-    </Link>
+      </Link>
+      <Button
+        w="full"
+        mt={4}
+        borderWidth="1px"
+        borderColor="red.400"
+        bg="transparent"
+        color="red.400"
+        _hover={{
+          bg: "red.400",
+          color: "white",
+        }}
+        onClick={() => deleteData(data.transaction_id)}
+      >
+        Hapus
+      </Button>
+    </Box>
   );
 }

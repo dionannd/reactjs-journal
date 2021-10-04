@@ -1,5 +1,7 @@
+/* eslint-disable no-undef */
 import React from "react";
 import { useHistory, useParams } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import transactionRequest from "api/transaction";
 import {
   Flex,
@@ -46,9 +48,9 @@ function DetailPage() {
     });
   };
 
-  // const getHeader = async () => {
-  //   const res = await transactionRequest.getDetailTransaction(id);
-  // };
+  const getHeader = async () => {
+    // const res = await transactionRequest.getDetailTransaction(id);
+  };
 
   const getDetails = async (page, search = "") => {
     setListDetail([]);
@@ -61,18 +63,6 @@ function DetailPage() {
   const getTipeDetail = async () => {
     const response = await transactionRequest.getDetailTipe(id);
     setData(response.data);
-  };
-
-  const deleteDetails = async () => {
-    try {
-      const payload = {
-        transaction_id: listSelected,
-      };
-      await transactionRequest.deleteDetailTransaction(payload);
-      getDetails(page, search);
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   const handleCheckAll = (e) => {
@@ -124,22 +114,39 @@ function DetailPage() {
       notification("Ooops", "Terjadi kesalahan pada server.", "error");
     } finally {
       setLoadingSave(false);
+      getTipeDetail();
     }
   };
 
-  // React.useEffect(() => {
-  //   getHeader(id);
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
+  const deleteDetails = async (id) => {
+    try {
+      const payload = {
+        transaction_id: listSelected,
+      };
+      await transactionRequest.deleteDetailTransaction(payload, id);
+      getDetails(page, search);
+      getTipeDetail();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   React.useEffect(() => {
-    getDetails(page, search, id);
-    getTipeDetail();
+    getHeader(id);
+    getTipeDetail(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  React.useEffect(() => {
+    getDetails(page, search);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, search]);
 
   return (
     <>
+      <Helmet>
+        <title>Detail Transaksi</title>
+      </Helmet>
       <SimpleGrid gap={5} columns={[1, 2, 3, 3]} mb={5}>
         <CardTipe data={data} />
       </SimpleGrid>
@@ -167,7 +174,7 @@ function DetailPage() {
             mr={4}
             px={8}
             colorScheme="red"
-            onClick={deleteDetails}
+            onClick={() => deleteDetails(id)}
             fontWeight="reguler"
           >
             Hapus

@@ -48,13 +48,16 @@ const theme = extendTheme({
           },
         },
         "outline-logout": {
-          background: "#f5f6fa",
+          background: "#fff",
           color: "red",
           borderWidth: "1px",
           borderColor: "red",
           borderRadius: "20px",
           _hover: {
-            bg: "gray.200",
+            bg: "",
+            color: "black",
+            borderWidth: "1px",
+            borderColor: "#000",
           },
         },
       },

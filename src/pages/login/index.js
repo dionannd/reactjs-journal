@@ -1,4 +1,5 @@
 import React from "react";
+import { Helmet } from "react-helmet";
 import { Card, AuthLayout } from "components";
 import {
   Flex,
@@ -8,6 +9,7 @@ import {
   FormLabel,
   Button,
   useToast,
+  Center,
 } from "@chakra-ui/react";
 import authRequest from "api/auth";
 import { Link } from "react-router-dom";
@@ -49,45 +51,59 @@ export default function Login() {
   };
 
   return (
-    <AuthLayout>
-      <Card>
-        <FormControl mb={4}>
-          <FormLabel>Email</FormLabel>
-          <Input
-            type="text"
-            variant="filled"
-            onChange={(e) => setData({ ...data, email: e.target.value })}
-          />
-        </FormControl>
-        <FormControl mb={4}>
-          <FormLabel>Password</FormLabel>
-          <Input
-            type="password"
-            variant="filled"
-            onChange={(e) => setData({ ...data, password: e.target.value })}
-          />
-        </FormControl>
-        <Button
-          w="full"
-          variant="dark"
-          mb={4}
-          onClick={handleLogin}
-          isLoading={isLoading}
-          loadingText="Please wait."
-        >
-          Masuk
-        </Button>
-        <Flex>
-          <Text>
-            Tidak punya akun?
-            <Link to="/register">
-              <Button size="sm" variant="link" color="black">
-                Registrasi
-              </Button>
-            </Link>
-          </Text>
-        </Flex>
-      </Card>
-    </AuthLayout>
+    <>
+      <Helmet>
+        <title>Masuk</title>
+      </Helmet>
+      <AuthLayout>
+        <Card>
+          <Center fontWeight="bold" fontSize="20px">
+            Login
+          </Center>
+          <FormControl mb={4} mt={4}>
+            <FormLabel>Email</FormLabel>
+            <Input
+              type="text"
+              variant="filled"
+              onChange={(e) => setData({ ...data, email: e.target.value })}
+            />
+          </FormControl>
+          <FormControl mb={4}>
+            <FormLabel>Password</FormLabel>
+            <Input
+              type="password"
+              variant="filled"
+              onChange={(e) => setData({ ...data, password: e.target.value })}
+            />
+          </FormControl>
+          <Button
+            w="full"
+            variant="dark"
+            mb={3}
+            onClick={handleLogin}
+            isLoading={isLoading}
+            loadingText="Please wait."
+          >
+            Masuk
+          </Button>
+          <Flex>
+            <Text>
+              Tidak punya akun?
+              <Link to="/register">
+                <Button
+                  size="sm"
+                  variant="link"
+                  color="black"
+                  fontSize="16px"
+                  ml={1}
+                >
+                  Daftar disni
+                </Button>
+              </Link>
+            </Text>
+          </Flex>
+        </Card>
+      </AuthLayout>
+    </>
   );
 }
