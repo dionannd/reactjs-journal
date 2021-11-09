@@ -2,7 +2,7 @@
 export { default as AuthLayout } from "./layouts/AuthLayout";
 export { default as MainLayout } from "./layouts/MainLayout";
 // Card
-export { default as Card } from "./card/Card";
+export { default as CardAuth } from "./card/CardAuth";
 export { default as CardItem } from "./card/CardItem";
 export { default as CardTipe } from "./card/CardTipe";
 // Modal

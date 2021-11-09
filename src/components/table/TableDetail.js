@@ -1,6 +1,6 @@
 import React from "react";
 import { Table, Thead, Tbody, Tr, Th, Td, Checkbox } from "@chakra-ui/react";
-import { Card } from "components";
+import { CardAuth } from "components";
 import { currencyFormat } from "utils";
 import moment from "moment";
 
@@ -8,7 +8,7 @@ export default function TableDetail(props) {
   const { data, handleCheckAll, handleCheck } = props;
 
   return (
-    <Card mt={5} px={0} py={0} fontSize="14px" rounded="lg" boxShadow="sm">
+    <CardAuth mt={5} px={0} py={0} fontSize="14px" rounded="lg" boxShadow="sm">
       <Table size="md">
         <Thead bg="#FAFAFA">
           <Tr>
@@ -50,6 +50,6 @@ export default function TableDetail(props) {
           )}
         </Tbody>
       </Table>
-    </Card>
+    </CardAuth>
   );
 }

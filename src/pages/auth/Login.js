@@ -1,6 +1,5 @@
-import React from "react";
-import { Helmet } from "react-helmet";
-import { Card, AuthLayout } from "components";
+import React, { useEffect } from "react";
+import { CardAuth, AuthLayout } from "components";
 import {
   Flex,
   Text,
@@ -9,8 +8,9 @@ import {
   FormLabel,
   Button,
   useToast,
-  Center,
+  Heading,
 } from "@chakra-ui/react";
+import { FiBook } from "react-icons/fi";
 import authRequest from "api/auth";
 import { Link } from "react-router-dom";
 
@@ -50,59 +50,61 @@ export default function Login() {
     }
   };
 
+  useEffect(() => {
+    document.title = `Login - Sijour`;
+  });
+
   return (
     <>
-      <Helmet>
-        <title>Masuk</title>
-      </Helmet>
       <AuthLayout>
-        <Card>
-          <Center fontWeight="bold" fontSize="20px">
-            Login
-          </Center>
-          <FormControl mb={4} mt={4}>
-            <FormLabel>Email</FormLabel>
+        <CardAuth>
+          <Heading mb={8} mt={2}>
+            <Flex fontSize="24">
+              <Text mr={1}>LOGIN TO SIJOUR</Text>
+              <FiBook />
+            </Flex>
+          </Heading>
+          <FormControl mb={4}>
+            <FormLabel fontSize="xs">E M A I L</FormLabel>
             <Input
               type="text"
               variant="filled"
+              rounded="sm"
               onChange={(e) => setData({ ...data, email: e.target.value })}
             />
           </FormControl>
-          <FormControl mb={4}>
-            <FormLabel>Password</FormLabel>
+          <FormControl mb={6}>
+            <FormLabel fontSize="xs">P A S S W O R D</FormLabel>
             <Input
               type="password"
               variant="filled"
+              rounded="sm"
               onChange={(e) => setData({ ...data, password: e.target.value })}
             />
           </FormControl>
           <Button
             w="full"
             variant="dark"
-            mb={3}
+            rounded="sm"
+            mb={5}
+            fontSize="xs"
             onClick={handleLogin}
             isLoading={isLoading}
             loadingText="Please wait."
           >
-            Masuk
+            LOGIN
           </Button>
-          <Flex>
-            <Text>
-              Tidak punya akun?
-              <Link to="/register">
-                <Button
-                  size="sm"
-                  variant="link"
-                  color="black"
-                  fontSize="16px"
-                  ml={1}
-                >
-                  Daftar disni
-                </Button>
-              </Link>
-            </Text>
-          </Flex>
-        </Card>
+          <Button
+            as={Link}
+            to="/register"
+            variant="link"
+            fontWeight="normal"
+            align="center"
+            color="blue.500"
+          >
+            Don't have an account? Sign Up
+          </Button>
+        </CardAuth>
       </AuthLayout>
     </>
   );
