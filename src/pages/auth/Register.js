@@ -1,6 +1,6 @@
 import React from "react";
 import { Helmet } from "react-helmet";
-import { Card, AuthLayout } from "components";
+import { CardAuth, AuthLayout } from "components";
 import {
   FormControl,
   Input,
@@ -50,7 +50,7 @@ export default function Register() {
         <title>Daftar</title>
       </Helmet>
       <AuthLayout>
-        <Card>
+        <CardAuth>
           <Center fontWeight="bold" fontSize="20px">
             Daftar Akun
           </Center>
@@ -94,7 +94,7 @@ export default function Register() {
               </Button>
             </Link>
           </Text>
-        </Card>
+        </CardAuth>
       </AuthLayout>
     </>
   );
