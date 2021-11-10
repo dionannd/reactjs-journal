@@ -1,16 +1,33 @@
 import React from "react";
-import { Table, Thead, Tbody, Tr, Th, Td, Checkbox } from "@chakra-ui/react";
-import { CardAuth } from "components";
+import {
+  Box,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  Checkbox,
+} from "@chakra-ui/react";
 import { currencyFormat } from "utils";
 import moment from "moment";
 
-export default function TableDetail(props) {
+export default function TableTransaction(props) {
   const { data, handleCheckAll, handleCheck } = props;
 
   return (
-    <CardAuth mt={5} px={0} py={0} fontSize="14px" rounded="lg" boxShadow="sm">
+    <Box
+      w="full"
+      bg="white"
+      mt={5}
+      px={0}
+      py={0}
+      fontSize="14px"
+      rounded="lg"
+      boxShadow="md"
+    >
       <Table size="md">
-        <Thead bg="#FAFAFA">
+        <Thead bg="gray.100">
           <Tr>
             <Td textAlign="center" width={1}>
               <Checkbox
@@ -18,10 +35,10 @@ export default function TableDetail(props) {
                 colorScheme="dark"
               />
             </Td>
-            <Th>Deskripsi</Th>
+            <Th>Description</Th>
             <Th>Type</Th>
-            <Th>Jumlah</Th>
-            <Th>Tanggal</Th>
+            <Th>Amount</Th>
+            <Th>Date</Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -31,7 +48,7 @@ export default function TableDetail(props) {
             </Tr>
           ) : (
             data.map((item, index) => (
-              <Tr key={index} bg={item.isChecked ? "gray.50" : null}>
+              <Tr key={index} bg={item.isChecked ? "white" : null}>
                 <Td>
                   <Checkbox
                     isChecked={item.isChecked}
@@ -39,7 +56,7 @@ export default function TableDetail(props) {
                     colorScheme="dark"
                   />
                 </Td>
-                <Td>{item.description}</Td>
+                <Td>{item.name}</Td>
                 <Td>{item.tipe}</Td>
                 <Td>{currencyFormat(item.amount)}</Td>
                 <Td>
@@ -50,6 +67,6 @@ export default function TableDetail(props) {
           )}
         </Tbody>
       </Table>
-    </CardAuth>
+    </Box>
   );
 }

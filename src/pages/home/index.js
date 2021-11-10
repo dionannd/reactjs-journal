@@ -1,27 +1,26 @@
-import React from "react";
-import { Helmet } from "react-helmet";
+import React, { useState, useEffect } from "react";
 import {
-  Flex,
+  Box,
   Button,
+  Flex,
+  Input,
+  InputGroup,
+  InputLeftElement,
   SimpleGrid,
+  Text,
   useDisclosure,
   useToast,
-  Box,
-  Center,
-  InputGroup,
-  Input,
-  InputLeftElement,
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
-import transactionRequest from "api/transaction";
-import { CardItem, ModalTransaction } from "components";
+import journalRequest from "api/journal";
+import { CardJournal, ModalJournal } from "components";
 import debounce from "utils";
 
 export default function HomePage() {
-  const [transaction, setTransaction] = React.useState([]);
-  const [data, setData] = React.useState({});
-  const [search, setSearch] = React.useState("");
-  const [isLoadingSave, setLoadingSave] = React.useState(false);
+  const [journal, setJournal] = useState([]);
+  const [data, setData] = useState({});
+  const [search, setSearch] = useState("");
+  const [isLoadingSave, setLoadingSave] = useState(false);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
@@ -31,63 +30,61 @@ export default function HomePage() {
       title: title,
       description: message,
       status: type,
+      variant: "left-accent",
       duration: 3000,
       isClosable: true,
     });
   };
 
-  const getTransaction = async (q) => {
-    const response = await transactionRequest.getTransaction(q);
-    setTransaction(response.data);
+  const getJournal = async (q) => {
+    const response = await journalRequest.getJournal(q);
+    setJournal(response.data);
+  };
+
+  const handleSave = async () => {
+    try {
+      setLoadingSave(true);
+      await journalRequest.saveJournal(data);
+      onClose();
+      getJournal();
+      setData({});
+    } catch (error) {
+      notification("Error!", error.response.data.message, "error");
+    } finally {
+      setLoadingSave(false);
+    }
+  };
+
+  const deleteJournal = async (id) => {
+    try {
+      await journalRequest.deleteJournal(id);
+      notification("Success!", "Journal has been deleted", "success");
+      getJournal();
+    } catch (error) {
+      notification("Ooops!", error.response.data.message, "error");
+    }
   };
 
   const handleSearch = debounce((e) => {
     setSearch(e);
   }, 500);
 
-  const handleTransaction = async () => {
-    try {
-      setLoadingSave(true);
-      await transactionRequest.saveTransaction(data);
-      onClose();
-      notification("Sukses", "transaksi berhasil ditambahkan.", "success");
-      getTransaction();
-      setData({});
-    } catch (error) {
-      notification("Ooops", "Terjadi kesalahan pada server.", "error");
-    } finally {
-      setLoadingSave(false);
-    }
-  };
-
-  const deleteTransaction = async (id) => {
-    try {
-      await transactionRequest.deleteTransaction(id);
-      notification("Sukses!", "Transaksi berhasil dihapus", "success");
-      getTransaction();
-    } catch (error) {
-      notification("Ooops!", error.response.data.message, "error");
-    }
-  };
-
-  React.useEffect(() => {
-    getTransaction(search);
+  useEffect(() => {
+    document.title = "Sijour";
+    getJournal(search);
   }, [search]);
 
   return (
     <>
-      <Helmet>
-        <title>Home Transaksi</title>
-      </Helmet>
       <Flex alignItems="center" justifyContent="space-between">
         <InputGroup mr={4}>
           <InputLeftElement
             pointerEvents="none"
-            children={<SearchIcon color="gray.300" />}
+            children={<SearchIcon color="gray.500" />}
           />
           <Input
             type="tel"
-            placeholder="Cari Catatan..."
+            placeholder="Search journal..."
             bg="white"
             onChange={(e) => handleSearch(e.target.value)}
             _focus={{
@@ -101,31 +98,35 @@ export default function HomePage() {
           fontWeight="reguler"
           fontSize="15px"
         >
-          Tambah Catatan
+          New Journal
         </Button>
       </Flex>
-      {transaction.length === 0 && (
+      {journal.length === 0 && (
         <Box px={8} py={12} rounded="md" w="full" mt={6} borderWidth="1px">
-          <Center fontWeight="bold" fontSize={24}>
-            Belum ada Catatan!
-          </Center>
-          <Center mt={2}>Buat catatan baru terlebih dahulu.</Center>
+          <Flex direction="column" justifyContent="center" alignItems="center">
+            <Text fontWeight="bold" fontSize={24} color="black">
+              No journals, yet!
+            </Text>
+            <Text mt={2} color="gray.600" fontSize="17">
+              Create a new journal first.
+            </Text>
+          </Flex>
         </Box>
       )}
       <SimpleGrid gap={4} columns={[2, null, 3]} mt={7}>
-        {transaction.map((item, index) => (
-          <CardItem
+        {journal.map((item, index) => (
+          <CardJournal
             data={item}
             key={index}
-            deleteData={(id) => deleteTransaction(id)}
+            deleteData={(id) => deleteJournal(id)}
           />
         ))}
       </SimpleGrid>
 
-      <ModalTransaction
+      <ModalJournal
         isOpen={isOpen}
         onClose={onClose}
-        saveTransaction={handleTransaction}
+        save={handleSave}
         data={data}
         setData={setData}
         isLoading={isLoadingSave}

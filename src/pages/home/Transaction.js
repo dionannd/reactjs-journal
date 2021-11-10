@@ -1,39 +1,38 @@
 /* eslint-disable no-undef */
-import React from "react";
-import { useHistory, useParams } from "react-router-dom";
-import { Helmet } from "react-helmet";
-import transactionRequest from "api/transaction";
+import React, { useState, useEffect } from "react";
 import {
   Flex,
   Button,
   Box,
+  Icon,
   Input,
   InputGroup,
   InputLeftElement,
   useDisclosure,
   useToast,
-  Center,
   SimpleGrid,
+  Text,
 } from "@chakra-ui/react";
 import { ArrowBackIcon, ArrowForwardIcon, SearchIcon } from "@chakra-ui/icons";
-import { TableDetail, ModalDetail, CardTipe } from "components";
+import { useHistory, useParams } from "react-router-dom";
 import ReactPaginate from "react-paginate";
+import transactionRequest from "api/transaction";
+import { TableTransaction, ModalTransaction, CardTipe } from "components";
 import debounce from "utils";
-import { Icon } from "@chakra-ui/react";
 
-function DetailPage() {
+function TransactionPage() {
+  const [data, setData] = useState({});
+  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
+
+  const [listTransaction, setListTransaction] = useState([]);
+  const [listSelected, setListSelected] = useState([]);
+  const [totalCount, setTotalCount] = useState(0);
+
+  const [isLoadingSave, setLoadingSave] = useState(false);
+
   const { id } = useParams();
   const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const [data, setData] = React.useState({});
-  const [page, setPage] = React.useState(1);
-  const [search, setSearch] = React.useState("");
-
-  const [listDetail, setListDetail] = React.useState([]);
-  const [listSelected, setListSelected] = React.useState([]);
-  const [totalCount, setTotalCount] = React.useState(0);
-
-  const [isLoadingSave, setLoadingSave] = React.useState(false);
 
   const toast = useToast();
   const history = useHistory();
@@ -43,42 +42,39 @@ function DetailPage() {
       title: title,
       description: message,
       status: type,
+      variant: "left-accent",
       duration: 3000,
       isClosable: true,
     });
   };
 
-  const getHeader = async () => {
-    // const res = await transactionRequest.getDetailTransaction(id);
-  };
-
-  const getDetails = async (page, search = "") => {
-    setListDetail([]);
-    const res = await transactionRequest.getListDetail(id, page, search);
+  const getTransaction = async (page, search = "") => {
+    setListTransaction([]);
+    const res = await transactionRequest.getList(id, page, search);
     setListSelected([]);
-    setListDetail(res.data);
+    setListTransaction(res.data);
     setTotalCount(res.totalCount);
   };
 
-  const getTipeDetail = async () => {
-    const response = await transactionRequest.getDetailTipe(id);
+  const getTipe = async () => {
+    const response = await transactionRequest.getTipe(id);
     setData(response.data);
   };
 
   const handleCheckAll = (e) => {
-    const newArray = listDetail.map((item) => {
+    const newArray = listTransaction.map((item) => {
       return {
         ...item,
         isChecked: e.target.checked,
       };
     });
 
-    setListSelected(newArray.map((i) => i.transaction_detail_id));
-    setListDetail(newArray);
+    setListSelected(newArray.map((i) => i.transaction_id));
+    setListTransaction(newArray);
   };
 
   const handleCheck = (e, id) => {
-    const newArray = listDetail.map((item, index) => {
+    const newArray = listTransaction.map((item, index) => {
       if (index === id) {
         item.isChecked = e.target.checked;
       }
@@ -87,14 +83,14 @@ function DetailPage() {
 
     const selected = newArray
       .filter((item) => item.isChecked)
-      .map((i) => i.transaction_detail_id);
+      .map((i) => i.transaction_id);
 
     setListSelected(selected);
-    setListDetail(newArray);
+    setListTransaction(newArray);
   };
 
   const checkLengthCheckbox = () => {
-    const result = listDetail.filter((item) => item.isChecked);
+    const result = listTransaction.filter((item) => item.isChecked);
     return result.length;
   };
 
@@ -102,66 +98,63 @@ function DetailPage() {
     setSearch(e);
   }, 500);
 
-  const handleDetail = async (data) => {
+  const handleTransaction = async (data) => {
     try {
       setLoadingSave(true);
-      await transactionRequest.saveDetailTransaction(data, id);
+      await transactionRequest.saveTransaction(data, id);
       onClose();
-      notification("Sukses", "Transaksi berhasil ditambahkan.", "success");
-      getDetails(1, "");
+      notification("Success", "Saved successfully.", "success");
+      getTransaction(1, "");
       setData({});
     } catch (error) {
-      notification("Ooops", "Terjadi kesalahan pada server.", "error");
+      notification("Error", error.response.data.message, "error");
     } finally {
       setLoadingSave(false);
-      getTipeDetail();
+      getTipe();
     }
   };
 
-  const deleteDetails = async (id) => {
+  const deleteTransaction = async (id) => {
     try {
       const payload = {
         transaction_id: listSelected,
       };
-      await transactionRequest.deleteDetailTransaction(payload, id);
-      getDetails(page, search);
-      getTipeDetail();
+      await transactionRequest.deleteTransaction(payload, id);
+      getTransaction(page, search);
+      getTipe();
     } catch (error) {
       console.log(error);
     }
   };
 
-  React.useEffect(() => {
-    getHeader(id);
-    getTipeDetail(id);
+  useEffect(() => {
+    getTipe(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  React.useEffect(() => {
-    getDetails(page, search);
+  useEffect(() => {
+    document.title = "Sijour — Transaction";
+    getTransaction(page, search);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, search]);
 
   return (
     <>
-      <Helmet>
-        <title>Detail Transaksi</title>
-      </Helmet>
-      <SimpleGrid gap={5} columns={[1, 2, 3, 3]} mb={5}>
+      <SimpleGrid gap={5} columns={[1, 2]} mb={5}>
         <CardTipe data={data} />
       </SimpleGrid>
       <Flex alignItems="center">
-        <Button mr={4} bg="white" onClick={history.goBack}>
+        <Button mr={4} bg="white" onClick={history.goBack} boxShadow="md">
           <Icon as={ArrowBackIcon} />
         </Button>
         <InputGroup mr={4}>
           <InputLeftElement
             pointerEvents="none"
-            children={<SearchIcon color="gray.300" />}
+            children={<SearchIcon color="gray.500" />}
           />
           <Input
             type="tel"
-            placeholder="Cari Deskripsi..."
+            placeholder="Search Description..."
             bg="white"
             onChange={(e) => handleSearch(e.target.value)}
             _focus={{
@@ -174,10 +167,10 @@ function DetailPage() {
             mr={4}
             px={8}
             colorScheme="red"
-            onClick={() => deleteDetails(id)}
+            onClick={() => deleteTransaction(id)}
             fontWeight="reguler"
           >
-            Hapus
+            Delete
           </Button>
         )}
         <Button
@@ -187,20 +180,22 @@ function DetailPage() {
           fontWeight="reguler"
           fontSize="15px"
         >
-          Tambah Transaksi
+          New Transaction
         </Button>
       </Flex>
-      {listDetail.length === 0 ? (
+      {listTransaction.length === 0 ? (
         <Box px={8} py={12} rounded="md" w="full" mt={6} borderWidth="1px">
-          <Center fontWeight="bold" fontSize={24}>
-            Belum ada Transaksi!
-          </Center>
-          <Center mt={2}>Buat transaksi baru terlebih dahulu.</Center>
+          <Flex direction="column" justifyContent="center" alignItems="center">
+            <Text fontWeight="bold" fontSize={24}>
+              No Transactions, yet!
+            </Text>
+            <Text mt={2}>Create a new transaction first.</Text>
+          </Flex>
         </Box>
       ) : (
         <>
-          <TableDetail
-            data={listDetail}
+          <TableTransaction
+            data={listTransaction}
             handleCheckAll={handleCheckAll}
             handleCheck={handleCheck}
           />
@@ -226,10 +221,10 @@ function DetailPage() {
         </>
       )}
 
-      <ModalDetail
+      <ModalTransaction
         isOpen={isOpen}
         onClose={onClose}
-        saveDetailTransaction={() => handleDetail(data)}
+        saveTransaction={() => handleTransaction(data)}
         data={data}
         setData={setData}
         isLoading={isLoadingSave}
@@ -238,4 +233,4 @@ function DetailPage() {
   );
 }
 
-export default DetailPage;
+export default TransactionPage;

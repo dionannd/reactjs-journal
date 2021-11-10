@@ -1,4 +1,4 @@
-export { default as Login } from "./auth/Login";
-export { default as Register } from "./auth/Register";
+export { default as LoginPage } from "./auth/Login";
+export { default as RegisterPage } from "./auth/Register";
 export { default as HomePage } from "./home";
-export { default as DetailPage } from "./home/Detail";
+export { default as TransactionPage } from "./home/Transaction";

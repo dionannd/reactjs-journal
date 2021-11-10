@@ -38,6 +38,10 @@ const theme = extendTheme({
             borderWidth: "1px",
             borderColor: "#000",
           },
+          _focus: {
+            borderWidth: "1px",
+            borderColor: "black",
+          },
         },
         outline: {
           color: "gray.600",
@@ -51,7 +55,7 @@ const theme = extendTheme({
           background: "#fff",
           color: "red",
           borderWidth: "1px",
-          borderColor: "red",
+          borderColor: "red.500",
           borderRadius: "20px",
           _hover: {
             bg: "",
@@ -73,7 +77,7 @@ const theme = extendTheme({
   styles: {
     global: {
       body: {
-        background: "gray.100",
+        background: "gray.50",
         FontFace: "Inter",
       },
       ".pages-link": {

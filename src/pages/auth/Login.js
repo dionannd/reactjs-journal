@@ -53,15 +53,15 @@ export default function Login() {
   };
 
   useEffect(() => {
-    document.title = `Login - Sijour`;
+    document.title = `Login — Sijour`;
   });
 
   return (
     <AuthLayout>
-      <CardAuth boxShadow="md">
+      <CardAuth>
         <Heading mb={8} mt={2}>
-          <Flex fontSize="24">
-            <Text mr={1}>LOGIN TO SIJOUR</Text>
+          <Flex fontSize="32">
+            <Text mr={1}>Login to SiJour</Text>
             <FiBook />
           </Flex>
         </Heading>
@@ -77,7 +77,7 @@ export default function Login() {
             onChange={(e) => setData({ ...data, email: e.target.value })}
           />
         </FormControl>
-        <FormControl mb={6}>
+        <FormControl mb={5}>
           <FormLabel fontSize="xs" fontWeight="bold">
             P A S S W O R D
           </FormLabel>

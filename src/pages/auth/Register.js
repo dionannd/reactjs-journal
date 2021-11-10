@@ -1,23 +1,25 @@
-import React from "react";
-import { Helmet } from "react-helmet";
+import React, { useState, useEffect } from "react";
 import { CardAuth, AuthLayout } from "components";
 import {
-  FormControl,
-  Input,
-  FormLabel,
   Button,
-  useToast,
-  Center,
+  Flex,
+  FormControl,
+  Heading,
+  Input,
   Text,
+  useToast,
 } from "@chakra-ui/react";
+import { FiBook } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import authRequest from "api/auth";
 
 export default function Register() {
-  const [isLoading, setLoading] = React.useState(false);
-  const [data, setData] = React.useState({
+  const [isLoading, setLoading] = useState(false);
+  const [data, setData] = useState({
+    name: "",
     email: "",
     password: "",
+    password_confirm: "",
   });
 
   const toast = useToast();
@@ -26,6 +28,7 @@ export default function Register() {
       title: title,
       description: message,
       status: type,
+      variant: "left-accent",
       duration: 5000,
       isClosable: true,
     });
@@ -35,67 +38,108 @@ export default function Register() {
     try {
       setLoading(true);
       await authRequest.register(data);
-      notif("Sukses!", "Daftar berhasil, silahkan login", "success");
+      notif("Success!", "Done, please login", "success");
       setData({});
     } catch (error) {
-      notif("Ooops!", error.response.data.message, "error");
+      notif("Error!", error.response.data.message, "error");
     } finally {
       setLoading(false);
     }
   };
 
+  useEffect(() => {
+    document.title = "Sign Up — Sijour";
+  });
+
   return (
-    <>
-      <Helmet>
-        <title>Daftar</title>
-      </Helmet>
-      <AuthLayout>
-        <CardAuth>
-          <Center fontWeight="bold" fontSize="20px">
-            Daftar Akun
-          </Center>
-          <FormControl mb={4} mt={4}>
-            <FormLabel>Email</FormLabel>
-            <Input
-              type="text"
-              variant="filled"
-              onChange={(e) => setData({ ...data, email: e.target.value })}
-            />
-          </FormControl>
-          <FormControl mb={4}>
-            <FormLabel>Password</FormLabel>
-            <Input
-              type="password"
-              variant="filled"
-              onChange={(e) => setData({ ...data, password: e.target.value })}
-            />
-          </FormControl>
+    <AuthLayout>
+      <Flex
+        bg="black"
+        w="1.5rem"
+        h="25rem"
+        roundedLeft="full"
+        boxShadow="md"
+        px={0}
+        py={0}
+      ></Flex>
+      <CardAuth px={10} py={5}>
+        <Heading fontSize="32" color="black">
+          Join with
+        </Heading>
+        <Heading mb={5}>
+          <Flex fontSize="34">
+            <Text>SiJour</Text>
+            <FiBook />
+          </Flex>
+        </Heading>
+        <FormControl mb={3}>
+          <Input
+            type="text"
+            variant="flushed"
+            size="sm"
+            fontSize="sm"
+            placeholder="N A M E"
+            onChange={(e) => setData({ ...data, name: e.target.value })}
+          />
+        </FormControl>
+        <FormControl mb={3}>
+          <Input
+            type="email"
+            variant="flushed"
+            size="sm"
+            fontSize="sm"
+            placeholder="E M A I L"
+            onChange={(e) => setData({ ...data, email: e.target.value })}
+          />
+        </FormControl>
+        <FormControl mb={3}>
+          <Input
+            type="password"
+            variant="flushed"
+            size="sm"
+            fontSize="sm"
+            placeholder="P A S S W O R D"
+            onChange={(e) => setData({ ...data, password: e.target.value })}
+          />
+        </FormControl>
+        <FormControl mb={5}>
+          <Input
+            type="password"
+            variant="flushed"
+            size="sm"
+            fontSize="sm"
+            placeholder="R E P E A T  P A S S W O R D"
+            onChange={(e) =>
+              setData({ ...data, password_confirm: e.target.value })
+            }
+          />
+        </FormControl>
+        <Button
+          w="full"
+          rounded="sm"
+          variant="dark"
+          fontSize="xs"
+          mb={5}
+          onClick={handleRegister}
+          isLoading={isLoading}
+          loadingText="Harap tunggu..."
+        >
+          SIGN UP
+        </Button>
+        <Flex>
+          <Text>Already have an account?</Text>
           <Button
-            w="full"
-            variant="dark"
-            mb={3}
-            onClick={handleRegister}
-            isLoading={isLoading}
-            loadingText="Harap tunggu..."
+            as={Link}
+            to="/"
+            ml={1}
+            variant="link"
+            color="blue.500"
+            fontWeight="normal"
           >
-            Daftar
+            Log in
           </Button>
-          <Text>
-            Kembali ke halaman
-            <Link to="/">
-              <Button
-                size="sm"
-                variant="link"
-                color="black"
-                fontSize="16px"
-                ml={1}
-              >
-                login
-              </Button>
-            </Link>
-          </Text>
-        </CardAuth>
-      </AuthLayout>
-    </>
+        </Flex>
+      </CardAuth>
+    </AuthLayout>
   );
 }

@@ -1,9 +1,9 @@
-import { HomePage, DetailPage, Register } from "pages";
+import { HomePage, TransactionPage, RegisterPage } from "pages";
 
 const routeList = [
   {
     path: "/register",
-    component: Register,
+    component: RegisterPage,
   },
   {
     path: "/home",
@@ -11,7 +11,7 @@ const routeList = [
   },
   {
     path: "/home/transaction/:id",
-    component: DetailPage,
+    component: TransactionPage,
   },
 ];
 

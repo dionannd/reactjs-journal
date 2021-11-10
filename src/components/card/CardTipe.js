@@ -1,29 +1,30 @@
-import { Center } from "@chakra-ui/layout";
-import { CardAuth } from "components";
+import { Box, Flex, Text } from "@chakra-ui/layout";
 import { currencyFormat } from "utils";
 
 const CardTipe = (props) => {
   const { data } = props;
   return (
     <>
-      <CardAuth boxShadow="sm" px="14px" py="14px">
-        <Center fontWeight="semibold">Pemasukan</Center>
-        <Center fontWeight="bold" fontSize="21px" color="green">
-          {currencyFormat(data.pemasukan)}
-        </Center>
-      </CardAuth>
-      <CardAuth boxShadow="sm" px="14px" py="14px">
-        <Center fontWeight="semibold">Pengeluaran</Center>
-        <Center fontWeight="bold" fontSize="21px" color="red">
-          {currencyFormat(data.pengeluaran)}
-        </Center>
-      </CardAuth>
-      <CardAuth boxShadow="sm" px="14px" py="14px">
-        <Center fontWeight="semibold">Keuntungan</Center>
-        <Center fontWeight="bold" fontSize="21px" color="blue">
-          {currencyFormat(data.pemasukan - data.pengeluaran)}
-        </Center>
-      </CardAuth>
+      <Box rounded="sm" w="full" bg="white" boxShadow="md" px="14px" py="14px">
+        <Flex direction="column" alignItems="center" justifyContent="center">
+          <Text fontWeight="semibold" color="green">
+            Income
+          </Text>
+          <Text fontWeight="bold" fontSize="21px">
+            {currencyFormat(data.pemasukan)}
+          </Text>
+        </Flex>
+      </Box>
+      <Box rounded="sm" w="full" bg="white" boxShadow="md" px="14px" py="14px">
+        <Flex direction="column" alignItems="center" justifyContent="center">
+          <Text fontWeight="semibold" color="red">
+            Expense
+          </Text>
+          <Text fontWeight="bold" fontSize="21px">
+            {currencyFormat(data.pengeluaran)}
+          </Text>
+        </Flex>
+      </Box>
     </>
   );
 };
