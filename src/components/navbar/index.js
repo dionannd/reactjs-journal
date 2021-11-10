@@ -1,5 +1,6 @@
-import { Flex, Text, Button } from "@chakra-ui/react";
+import { Flex, Text, IconButton } from "@chakra-ui/react";
 import { RiShutDownLine } from "react-icons/ri";
+import { FiBook } from "react-icons/fi";
 
 const Navbar = () => {
   const logout = () => {
@@ -10,29 +11,28 @@ const Navbar = () => {
   return (
     <>
       <Flex
-        height="5rem"
-        px="3.5rem"
+        height="4rem"
+        px="8rem"
         alignItems="center"
         bg="white"
         boxShadow="sm"
         justifyContent="space-between"
       >
-        <Flex>
-          <Text fontWeight="bold" mr={10}>
-            MyBuku
-          </Text>
-          <Text mr={5}>Laporan</Text>
+        <Flex alignItems="center">
+          <Flex alignItems="center" fontWeight="bold">
+            <Text fontSize="24">SiJ</Text>
+            <FiBook />
+            <Text fontSize="24">ur</Text>
+          </Flex>
+          <Text ml={14}>Report</Text>
         </Flex>
-        <Flex>
-          <Button
-            variant="outline-logout"
-            leftIcon={<RiShutDownLine />}
-            onClick={logout}
-            fontWeight="reguler"
-          >
-            Logout
-          </Button>
-        </Flex>
+        <IconButton
+          icon={<RiShutDownLine />}
+          size="sm"
+          variant="outline-logout"
+          onClick={logout}
+          fontWeight="reguler"
+        ></IconButton>
       </Flex>
     </>
   );

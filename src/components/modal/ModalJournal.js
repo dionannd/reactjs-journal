@@ -10,50 +10,40 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-  Select,
 } from "@chakra-ui/react";
 
-const ModalTransaction = (props) => {
-  const { isOpen, onClose, saveTransaction, data, setData, isLoading } = props;
+const ModalJournal = (props) => {
+  const { isOpen, onClose, save, data, setData, isLoading } = props;
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader bg="black" fontSize="18" color="white" mb="4">
-          New Transaction
+          New Journal
         </ModalHeader>
         <ModalCloseButton color="white" _focus={{ border: 0 }} />
         <ModalBody>
           <FormControl mb={4} isRequired="true">
-            <FormLabel>Description:</FormLabel>
+            <FormLabel>Name:</FormLabel>
             <Input
               type="text"
-              size="sm"
               variant="filled"
+              size="sm"
               value={data.name}
               onChange={(e) => setData({ ...data, name: e.target.value })}
             />
           </FormControl>
-          <FormControl mb={4} isRequired="true">
-            <FormLabel>Jumlah:</FormLabel>
-            <Input
-              type="number"
-              size="sm"
-              variant="filled"
-              value={data.amount}
-              onChange={(e) => setData({ ...data, amount: e.target.value })}
-            />
-          </FormControl>
           <FormControl isRequired="true">
-            <FormLabel>Type:</FormLabel>
-            <Select
+            <FormLabel>Description:</FormLabel>
+            <Input
+              type="text"
+              variant="filled"
               size="sm"
-              placeholder="-- Select Type --"
-              onChange={(e) => setData({ ...data, tipe: e.target.value })}
-            >
-              <option value="Income">Income</option>
-              <option value="Expense">Expense</option>
-            </Select>
+              value={data.description}
+              onChange={(e) =>
+                setData({ ...data, description: e.target.value })
+              }
+            />
           </FormControl>
         </ModalBody>
         <ModalFooter>
@@ -61,10 +51,10 @@ const ModalTransaction = (props) => {
             variant="dark"
             fontSize="sm"
             rounded="sm"
-            fontWeight="reguler"
-            onClick={saveTransaction}
+            onClick={save}
             isLoading={isLoading}
             loadingText="Memproses"
+            fontWeight="reguler"
           >
             Save
           </Button>
@@ -74,4 +64,4 @@ const ModalTransaction = (props) => {
   );
 };
 
-export default ModalTransaction;
+export default ModalJournal;
